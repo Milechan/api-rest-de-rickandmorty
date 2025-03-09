@@ -14,7 +14,25 @@ class User(db.Model):
     password:Mapped[str]=mapped_column(nullable=False)
 
     favorites = relationship("Favoritos", back_populates="user")
+    
+    def serialize(self):
+        return {
+            "id":self.id,
+            "name":self.name,
+            "email":self.email,
+            "password":self.password
+        }
+    
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
 
+    def update(self):
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
 
 
 class Character(db.Model):
@@ -31,6 +49,30 @@ class Character(db.Model):
     url: Mapped[str] = mapped_column(String, nullable=False)
     created: Mapped[str] = mapped_column(String, nullable=False)
 
+    def serialize(self):
+        return {
+            "id":self.id,
+            "name":self.name,
+            "status":self.status,
+            "gender":self.gender,
+            "origin":self.origin,
+            "location":self.location,
+            "image":self.image,
+            "url":self.url,
+            "created":self.created
+        }
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def update(self):
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
+
 class Episode(db.Model):
     __tablename__ = "episode"
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
@@ -40,7 +82,27 @@ class Episode(db.Model):
     url: Mapped[str] = mapped_column(String, nullable=False)
     created: Mapped[str] = mapped_column(String, nullable=False)
 
-    
+    def serialize(self):
+        return {
+            "id":self.id,
+            "name":self.name,
+            "air_date":self.air_date,
+            "episode":self.episode,
+            "url":self.url,
+            "created":self.created
+        }
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def update(self):
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
 
 
 class Location(db.Model):
@@ -51,6 +113,26 @@ class Location(db.Model):
     dimension: Mapped[str] = mapped_column(String, nullable=False)
     url: Mapped[str] = mapped_column(String, nullable=False)
     created: Mapped[str] = mapped_column(String, nullable=False)
+
+    def serialize(self):
+        return {
+            "id":self.id,
+            "name":self.name,
+            "type":self.type,
+            "dimension":self.dimension,
+            "url":self.url,
+            "created":self.created
+        }
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def update(self):
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
 
 
 class Favoritos(db.Model):
@@ -66,4 +148,23 @@ class Favoritos(db.Model):
     location = relationship("Location")
     episode = relationship("Episode")
 
+    def serialize(self):
+        return {
+            "id":self.id,
+            "user_id":self.user_id,
+            "character_id":self.character_id,
+            "location_id":self.location_id,
+            "episode_id":self.episode_id
+            
+        }
 
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def update(self):
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
